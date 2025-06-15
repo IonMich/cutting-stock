@@ -1,7 +1,0 @@
-# requirements: scipy, numpy, matplotlib, cvxpy, cvxopt
-# install: pip install -e .
-scipy
-numpy
-matplotlib
-cvxpy
-cvxopt
