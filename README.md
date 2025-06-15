@@ -4,26 +4,54 @@ This is a Python implementation of the cutting stock problem.
 
 The problem is described here: https://en.wikipedia.org/wiki/Cutting_stock_problem
 
-# Installations
+## Installation
 
-To install the required packages using `pip` in your current environment, run:
+This project uses [uv](https://docs.astral.sh/uv/) for fast Python package management. If you don't have uv installed, you can install it with:
 
-`pip install -e .`
-
-To create a new `conda` environment with all the required packages, run:
-
-```
-conda env create --file environment.yml --name cvx-py310
-conda activate cvx-py310
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-# Usage
+Or on macOS with Homebrew:
+
+```bash
+brew install uv
+```
+
+### Setup Development Environment
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd cutting_stock
+   ```
+
+2. Create a virtual environment and install dependencies:
+   ```bash
+   uv sync
+   ```
+
+3. Activate the virtual environment:
+   ```bash
+   source .venv/bin/activate  # On Unix/macOS
+   # or
+   .venv\Scripts\activate     # On Windows
+   ```
+
+Alternatively, you can run commands directly with uv without activating the environment:
+```bash
+uv run python cutting_stock.py
+```
+
+## Usage
 
 Basic usage with default input values:
 
-`python cutting_stock.py`
+```bash
+uv run python cutting_stock.py
+```
 
-Options:
+### Command Line Options
 
 ```
 -r, --roll_length: The length of the roll. E.g. -r 12.0
@@ -33,13 +61,15 @@ Options:
 -g, --ge_required: If specified, the constraint is >= instead of ==.
 ```
 
-For example:
+### Example
 
-`python cutting_stock.py -r 12.0 -l 3.4 3.0 2.7 -q 34 13 5`
-
-which produces the following output:
-
+```bash
+uv run python cutting_stock.py -r 12.0 -l 3.4 3.0 2.7 -q 34 13 5
 ```
+
+This produces the following output:
+
+```text
 Input data:
 lengths = [3.4 3.  2.7]
 Quantities = [34 13  5]
@@ -84,3 +114,38 @@ this pattern is:
         item with length 3.0 m used 1 times
         item with length 2.7 m used 3 times
 ```
+
+## Development
+
+### Running Tests
+
+```bash
+uv run pytest
+```
+
+### Code Formatting
+
+This project uses Black for code formatting and isort for import sorting:
+
+```bash
+uv run black .
+uv run isort .
+```
+
+### Linting
+
+```bash
+uv run flake8 .
+```
+
+## Dependencies
+
+- **scipy**: Scientific computing library
+- **numpy**: Numerical computing library  
+- **matplotlib**: Plotting library
+- **cvxpy**: Convex optimization library
+- **cvxopt**: Convex optimization library
+
+## License
+
+MIT License

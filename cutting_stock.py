@@ -10,9 +10,10 @@
 import cvxpy as cp
 import numpy as np
 
+
 # first find a_ij and c_i for all possible combinations that fit in the roll
 # note that we have an unlimited supply of each item, so we can use as much as we want.
-def find_combinations(lengths, roll_length):
+def find_combinations(lengths, roll_length, max_decimal_places):
     
     # find all combinations of lengths
     from itertools import combinations_with_replacement
@@ -37,7 +38,7 @@ def find_combinations(lengths, roll_length):
 
 def solve(lengths, q, roll_length, max_decimal_places, silent=False, solver='GLPK', ge_required=False):
 
-    A, c = find_combinations(lengths, roll_length)
+    A, c = find_combinations(lengths, roll_length, max_decimal_places)
 
     # define the cvxpy problem using the mixed integer 
     # linear programming solver
@@ -98,14 +99,16 @@ def get_max_decimal_places(lengths, roll_length):
         max_decimal_places = max(max_decimal_places, len(str(roll_length).split('.')[1]))
     return max_decimal_places
 
-if __name__=="__main__":
-    # Data
+def main():
+    """Main entry point for the cutting stock solver."""
+    import argparse
+
+    # Default data
     roll_length = 12
     lengths = np.array([3.4, 3.0, 2.7])
     q = np.array([34, 13, 5])
 
-    import argparse
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description='Solve the cutting stock problem using CVXPY')
     parser.add_argument('-r', '--roll_length', type=float, default=roll_length, help='The length of the roll. E.g. -r 12.0')
     parser.add_argument('-l', '--lengths', type=float, nargs='+', default=lengths, help='The lengths of the items. Must be a list of floats. E.g. -l 3.4 3.0 2.7')
     parser.add_argument('-q', '--quantities', type=float, nargs='+', default=q, help='The quantities of the items. Must be a list of floats. E.g. -q 34 13 5')
@@ -114,7 +117,7 @@ if __name__=="__main__":
     args = parser.parse_args()
 
     if len(args.lengths) != len(args.quantities):
-        raise Exception('Must have the same number of lengths and q.')
+        raise Exception('Must have the same number of lengths and quantities.')
 
     # find the max number of decimal places in the lengths
     max_decimal_places = get_max_decimal_places(args.lengths, args.roll_length)
@@ -127,3 +130,9 @@ if __name__=="__main__":
         solver=args.solver,
         ge_required=args.ge_required
     )
+    return x_solve
+
+
+if __name__ == "__main__":
+    main()
+
