@@ -86,18 +86,34 @@ def create_stock_visualization(lengths: List[float], pattern: np.ndarray, roll_l
     return result
 
 
+def create_input_visualization(lengths: List[float], quantities: List[int], max_decimal_places: int = 1) -> str:
+    """Create ASCII art visualization showing the required pieces on a single line."""
+    colors = ['█', '▓', '▒', '░', '▆', '▅', '▄', '▃']  # Same colors as cutting patterns
+    
+    pieces = []
+    for i, (length, qty) in enumerate(zip(lengths, quantities)):
+        char = colors[i % len(colors)]
+        # Create visual with proper spacing: "███ 3.4m ×34"
+        pieces.append(f'{char * 3} {length}m ×{qty}')
+    
+    # Join all pieces on a single line with separators
+    return '   '.join(pieces)
+
+
 def display_concise_output(lengths: np.ndarray, q: np.ndarray, roll_length: float, 
                           x_value: np.ndarray, objective_value: float, A: np.ndarray, 
                           c: List[float], max_decimal_places: int) -> None:
     """Display concise output with input summary and pattern visualizations."""
-    # Show input and solution summary
-    pieces_desc = []
-    for i, (length, qty) in enumerate(zip(lengths, q)):
-        pieces_desc.append(f'{length}m×{int(qty)}')
-    print(f'Input: {", ".join(pieces_desc)} from {roll_length}m stocks')
+    # Show complete input specification
+    input_viz = create_input_visualization(lengths.tolist(), [int(qty) for qty in q], max_decimal_places)
+    print('Required pieces:')
+    print(input_viz)
+    print(f'Stock length: {roll_length}m')
+    print()
     
+    # Show solution summary
     total_stocks = int(round(sum(x_value)))
-    print(f'Solution: {total_stocks} stocks, {objective_value:.1f}m waste')
+    print(f'Solution: {total_stocks} stocks of {roll_length}m each, {objective_value:.1f}m waste')
     print()
     
     # Show cutting patterns
@@ -122,13 +138,12 @@ def display_verbose_output(lengths: np.ndarray, q: np.ndarray, roll_length: floa
     
     print('INPUT SPECIFICATIONS:')
     print(f'• Stock length: {roll_length} m')
-    
-    # Format required pieces nicely
-    pieces_desc = []
-    for i, (length, qty) in enumerate(zip(lengths, q)):
-        pieces_desc.append(f'{length}m (×{int(qty)})')
-    print(f'• Required pieces: {", ".join(pieces_desc)}')
     print(f'• Total material needed: {total_material_needed:.1f} m')
+    print('• Required pieces:')
+    input_viz = create_input_visualization(lengths.tolist(), [int(qty) for qty in q], max_decimal_places)
+    # Indent the input visualization
+    indented_viz = '\n'.join('  ' + line for line in input_viz.split('\n'))
+    print(indented_viz)
     print()
 
     total_stocks = int(round(sum(x_value)))
