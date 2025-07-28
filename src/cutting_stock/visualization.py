@@ -9,7 +9,7 @@ def create_stock_visualization(lengths: List[float], pattern: np.ndarray, roll_l
     # Calculate the visual representation
     visual_parts = []
     label_parts = []
-    current_pos = 0
+    current_pos = 0.0  # Use float to match length types
     colors = ['█', '▓', '▒', '░', '▆', '▅', '▄', '▃']  # Different patterns for different lengths
     
     # Create segments for each piece type
@@ -122,7 +122,7 @@ def display_concise_output(lengths: np.ndarray, q: np.ndarray, roll_length: floa
             times_used = int(round(float(x_value[i])))
             # Use consistent width for the prefix to maintain alignment
             prefix = f'Use {times_used:2}× → '
-            print(prefix + create_stock_visualization(lengths, A[:, i], roll_length, max_decimal_places))
+            print(prefix + create_stock_visualization(lengths.tolist(), A[:, i], roll_length, max_decimal_places))
 
 
 def display_verbose_output(lengths: np.ndarray, q: np.ndarray, roll_length: float, 
@@ -191,7 +191,7 @@ def display_verbose_output(lengths: np.ndarray, q: np.ndarray, roll_length: floa
             
             # ASCII art visualization
             print('• Visual:')
-            visualization = create_stock_visualization(lengths, A[:, i], roll_length, max_decimal_places, indent="  ")
+            visualization = create_stock_visualization(lengths.tolist(), A[:, i], roll_length, max_decimal_places, indent="  ")
             print('  ' + visualization)
             print()
             

@@ -2,7 +2,7 @@
 
 import cvxpy as cp
 import numpy as np
-from typing import List, Tuple, Dict, Any, Optional
+from typing import List, Tuple, Dict, Any
 
 
 def find_combinations(lengths: List[float], roll_length: float, max_decimal_places: int) -> Tuple[List[List[int]], List[float]]:
