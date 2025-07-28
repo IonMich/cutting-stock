@@ -1,8 +1,6 @@
 # Cutting Stock Problem
 
-This is a Python implementation of the cutting stock problem.
-
-The problem is described here: <https://en.wikipedia.org/wiki/Cutting_stock_problem>
+A CVXPY implementation of the [cutting-stock problem](https://en.wikipedia.org/wiki/Cutting_stock_problem).
 
 ## Installation
 
