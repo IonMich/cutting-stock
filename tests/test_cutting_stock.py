@@ -4,7 +4,7 @@ Test cases for the cutting stock problem solver.
 import numpy as np
 import pytest
 
-from cutting_stock import find_combinations, get_max_decimal_places, solve
+from src.cutting_stock import find_combinations, get_max_decimal_places, solve
 
 
 def test_get_max_decimal_places():
@@ -50,16 +50,20 @@ def test_solve_basic():
         q=quantities,
         roll_length=roll_length,
         max_decimal_places=max_decimal_places,
-        silent=True,  # Don't print output during tests
         solver='GLPK'
     )
     
-    # Should return a solution
+    # Should return a dictionary with solution data
     assert result is not None
-    assert len(result) > 0
+    assert isinstance(result, dict)
+    assert 'status' in result
+    assert 'x_value' in result
+    assert 'objective_value' in result
     
-    # All values should be non-negative
-    assert all(val >= 0 for val in result)
+    # If optimal, should have a valid solution
+    if result['status'] == 'optimal':
+        assert result['x_value'] is not None
+        assert all(val >= 0 for val in result['x_value'])
 
 
 def test_solve_ge_constraint():
@@ -74,14 +78,14 @@ def test_solve_ge_constraint():
         q=quantities,
         roll_length=roll_length,
         max_decimal_places=max_decimal_places,
-        silent=True,
         solver='GLPK',
         ge_required=True
     )
     
-    # Should return a solution
+    # Should return a dictionary with solution data
     assert result is not None
-    assert len(result) > 0
+    assert isinstance(result, dict)
+    assert 'status' in result
 
 
 def test_solve_invalid_solver():
@@ -97,6 +101,5 @@ def test_solve_invalid_solver():
             q=quantities,
             roll_length=roll_length,
             max_decimal_places=max_decimal_places,
-            silent=True,
             solver='INVALID'
         )

@@ -42,6 +42,9 @@ Issues = "https://github.com/ionmich/cutting_stock/issues"
 [project.scripts]
 cutting-stock = "cutting_stock:main"
 
+[tool.hatch.build.targets.wheel]
+packages = ["src/cutting_stock"]
+
 [dependency-groups]
 dev = [
     {include-group = "lint"},
