@@ -34,9 +34,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project.urls]
-Homepage = "https://github.com/ionmich/cutting_stock"
-Repository = "https://github.com/ionmich/cutting_stock"
-Issues = "https://github.com/ionmich/cutting_stock/issues"
+Homepage = "https://github.com/ionmich/cutting-stock"
+Repository = "https://github.com/ionmich/cutting-stock"
+Issues = "https://github.com/ionmich/cutting-stock/issues"
 
 [project.scripts]
 cutting-stock = "cutting_stock:main"
