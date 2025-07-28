@@ -16,13 +16,13 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
    ```bash
    git clone <repository-url>
-   cd cutting_stock
+   cd cutting-stock
    ```
 
 2. You can run commands directly with uv without activating the environment or manually installing dependencies:
 
    ```bash
-   uv run cutting_stock
+   uv run cutting-stock
    ```
 
 ## Command Line Options
@@ -39,7 +39,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ### Example
 
 ```bash
-uv run python cutting_stock.py -r 12.0 -l 3.4 3.0 2.7 -q 34 13 5
+uv run cutting-stock -r 12.0 -l 3.4 3.0 2.7 -q 34 13 5
 ```
 
 This produces the following output:
