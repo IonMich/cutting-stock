@@ -1,7 +1,3 @@
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
 [project]
 name = "cutting-stock"
 version = "0.1.0"
@@ -23,7 +19,9 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Mathematics",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
+
 requires-python = ">=3.10"
+
 dependencies = [
     "scipy",
     "numpy",
@@ -32,31 +30,35 @@ dependencies = [
     "cvxopt",
 ]
 
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project.urls]
-Homepage = "https://github.com/ionmich/cutting-stock"
-Repository = "https://github.com/ionmich/cutting-stock"
-Issues = "https://github.com/ionmich/cutting-stock/issues"
+Homepage = "https://github.com/ionmich/cutting_stock"
+Repository = "https://github.com/ionmich/cutting_stock"
+Issues = "https://github.com/ionmich/cutting_stock/issues"
 
 [project.scripts]
 cutting-stock = "cutting_stock:main"
 
-[tool.uv]
-dev-dependencies = [
-    "pytest>=7.0",
-    "pytest-cov>=4.0",
-    "black>=23.0",
-    "isort>=5.12",
-    "flake8>=6.0",
-    "mypy>=1.0",
+[dependency-groups]
+dev = [
+    {include-group = "lint"},
+    {include-group = "test"},
+    {include-group = "typing"},
 ]
 
-[tool.black]
-line-length = 88
-target-version = ['py310']
-
-[tool.isort]
-profile = "black"
-line_length = 88
+lint = [
+    "ruff>=0.12.5",
+]
+test = [
+    "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
+]
+typing = [
+    "mypy>=1.16.0",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

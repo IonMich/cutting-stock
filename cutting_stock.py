@@ -9,18 +9,19 @@
 
 import cvxpy as cp
 import numpy as np
+from typing import List, Tuple
 
 
 # first find a_ij and c_i for all possible combinations that fit in the roll
 # note that we have an unlimited supply of each item, so we can use as much as we want.
-def find_combinations(lengths, roll_length, max_decimal_places):
+def find_combinations(lengths: List[float], roll_length: float, max_decimal_places: int) -> Tuple[List[List[int]], List[float]]:
     
     # find all combinations of lengths
     from itertools import combinations_with_replacement
     max_combination_length = int(roll_length / min(lengths))
-    combinations = []
+    combinations: List[Tuple[float, ...]] = []
     for i in range(1, max_combination_length + 1):
-        combinations += combinations_with_replacement(lengths, i)
+        combinations += list(combinations_with_replacement(lengths, i))
 
     # find a_ij and c_i
     a_ij = []
@@ -38,7 +39,8 @@ def find_combinations(lengths, roll_length, max_decimal_places):
 
 def solve(lengths, q, roll_length, max_decimal_places, silent=False, solver='GLPK', ge_required=False):
 
-    A, c = find_combinations(lengths, roll_length, max_decimal_places)
+    a_ij, c = find_combinations(lengths, roll_length, max_decimal_places)
+    A = np.array(a_ij).T
 
     # define the cvxpy problem using the mixed integer 
     # linear programming solver
@@ -75,7 +77,7 @@ def solve(lengths, q, roll_length, max_decimal_places, silent=False, solver='GLP
         print("optimal value of fyra", prob.value, "m")
         print("optimal var", x.value)
         # print the number of each pattern used, the cost of each pattern, and finally the total cost
-        if prob.status == 'optimal':
+        if prob.status == 'optimal' and x.value is not None:
             
             print('\n============================')
             print('========= PATTERNS =========')
@@ -84,18 +86,18 @@ def solve(lengths, q, roll_length, max_decimal_places, silent=False, solver='GLP
             for i in range(len(c)):
                 # only print the patterns that are used
                 if x.value[i] > 0:
-                    print("pattern", i, "used", round(x.value[i]), "times, cost", c[i], "total cost", c[i] * round(x.value[i]))
+                    print("pattern", i, "used", round(float(x.value[i])), "times, cost", c[i], "total cost", c[i] * round(float(x.value[i])))
                     print("this pattern is:")
                     for j in range(len(q)):
-                        print("\titem with length", lengths[j], "m used", A[i][j], "times")
+                        print("\titem with length", lengths[j], "m used", A[j][i], "times")
                     print("\n")
 
     return x.value
 
 
-def get_max_decimal_places(lengths, roll_length):
-    max_decimal_places = max([len(str(length).split('.')[1]) for length in lengths])
-    if isinstance(roll_length, float):
+def get_max_decimal_places(lengths: List[float], roll_length: float) -> int:
+    max_decimal_places = max([len(str(length).split('.')[1]) if '.' in str(length) else 0 for length in lengths])
+    if isinstance(roll_length, float) and '.' in str(roll_length):
         max_decimal_places = max(max_decimal_places, len(str(roll_length).split('.')[1]))
     return max_decimal_places
 
