@@ -4,26 +4,23 @@ A CVXPY implementation of the [cutting-stock problem](https://en.wikipedia.org/w
 
 ## Installation
 
-This project uses [uv](https://docs.astral.sh/uv/) for fast Python package management. If you don't have uv installed, you can install it with:
+The project is available on [PyPI](https://pypi.org/project/cutting-stock/). You can install it using pip:
 
 ```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
+pip install cutting-stock
 ```
 
-### Setup Development Environment
+Alternatively, if you are a `uv` user, you can install the associated CLI directly:
 
-1. Clone the repository:
+```bash
+uvx cutting-stock
+```
 
-   ```bash
-   git clone <repository-url>
-   cd cutting-stock
-   ```
+or you can add it to your environment dependencies:
 
-2. You can run commands directly with uv without activating the environment or manually installing dependencies:
-
-   ```bash
-   uv run cutting-stock
-   ```
+```bash
+uv add cutting-stock
+```
 
 ## Command Line Options
 
@@ -61,6 +58,29 @@ Use  3× → 3.0m |3.0m |3.0m |3.0m
 Use  1× → 3.0m |2.7m|2.7m|2.7m|0.9m
           ▓▓▓▓▓|▒▒▒▒|▒▒▒▒|▒▒▒▒|···· (12m stock)
 ```
+
+## Setup Development Environment
+
+1. This project uses [uv](https://docs.astral.sh/uv/) for fast Python package management. If you don't have uv installed, you can install it with: Install `uv`:
+
+   If you have `curl` installed, you can run:
+
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+
+2. Clone the repository:
+
+   ```bash
+   git clone <repository-url>
+   cd cutting-stock
+   ```
+
+3. You can run commands directly with uv without activating the environment or manually installing dependencies:
+
+   ```bash
+   uv run cutting-stock
+   ```
 
 ## Development
 

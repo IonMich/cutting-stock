@@ -1,6 +1,6 @@
 [project]
 name = "cutting-stock"
-version = "0.1.1"
+version = "0.1.3"
 description = "A Python implementation of the cutting stock problem solver"
 readme = "README.md"
 license = "MIT"
